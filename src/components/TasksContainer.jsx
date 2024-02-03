@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { updateTask, getTask } from '../api/tasks.api';
 import { TaskCard } from './TaskCard';
 import { TaskNew } from './TaskNew';
@@ -10,30 +11,31 @@ export function TasksContainer({
   handleDragging,
   loadTasks,
 }) {
+  const [stateBeforeUpdate, setStateBeforeUpdate] = useState('');
   const handleDragOver = (event) => event.preventDefault();
-  const object = { state };
 
   const handleDrop = async (event) => {
     event.preventDefault();
-
     const id = event.dataTransfer.getData('text');
-    var statebeforeUpdate = '';
-    const taskOnDrag = await getTask(id).then((task) => {
-      statebeforeUpdate = task.data.state;
-      return Object.assign(task.data, object);
-    });
 
-    if (statebeforeUpdate !== state) {
-      await updateTask(taskOnDrag.id, taskOnDrag);
-      handleDragging(false);
-      loadTasks();
-      toast.success('Updated Task', {
-        position: 'bottom-right',
-        style: {
-          background: '#101010',
-          color: '#fff',
-        },
-      });
+    try {
+      const { data } = await getTask(id);
+      setStateBeforeUpdate(data.state);
+
+      if (stateBeforeUpdate !== state) {
+        await updateTask(id, { ...data, state });
+        handleDragging(false);
+        loadTasks();
+        toast.success('Updated Task', {
+          position: 'bottom-right',
+          style: {
+            background: '#101010',
+            color: '#fff',
+          },
+        });
+      }
+    } catch (error) {
+      console.error('Error: ', error);
     }
   };
 

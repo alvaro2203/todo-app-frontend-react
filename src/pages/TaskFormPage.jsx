@@ -42,7 +42,7 @@ export function TaskFormPage() {
 
       navigate('/tasks');
     } catch (error) {
-      console.log(error);
+      console.error('Error: ', error);
     }
   });
 
@@ -60,7 +60,7 @@ export function TaskFormPage() {
 
       navigate('/tasks');
     } catch (error) {
-      console.log(error);
+      console.error('Error: ', error);
     }
   };
 
@@ -73,7 +73,7 @@ export function TaskFormPage() {
         setValue('title', data.title);
         setValue('description', data.description);
       } catch (error) {
-        console.log({ error });
+        console.error('Error: ', error);
       }
 
       if (state) setValue('state', state);

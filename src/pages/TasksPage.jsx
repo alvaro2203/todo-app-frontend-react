@@ -16,21 +16,20 @@ export function TasksPage() {
   const handleDragging = (dragging) => setIsDragging(dragging);
 
   async function loadTasks() {
-    const res = await getAllTasks();
-    const tasksData = res.data;
+    const { data } = await getAllTasks();
 
     setTasks({
       pending: {
         ...tasks.pending,
-        tasks: tasksData.filter((task) => task.state === STATE_CHOICES.pending),
+        tasks: data.filter((task) => task.state === STATE_CHOICES.pending),
       },
       doing: {
         ...tasks.doing,
-        tasks: tasksData.filter((task) => task.state === STATE_CHOICES.doing),
+        tasks: data.filter((task) => task.state === STATE_CHOICES.doing),
       },
       done: {
         ...tasks.done,
-        tasks: tasksData.filter((task) => task.state === STATE_CHOICES.done),
+        tasks: data.filter((task) => task.state === STATE_CHOICES.done),
       },
     });
   }
@@ -40,23 +39,21 @@ export function TasksPage() {
   }, []);
 
   return (
-    <>
-      <div className='grid grid-cols-3 gap-5'>
-        {Object.keys(tasks).map((taskState) => (
-          <div key={taskState} className='p-3'>
-            <h1 className='text-center font-bold mb-3'>
-              {tasks[taskState].label.toUpperCase()}
-            </h1>
-            <TasksContainer
-              tasks={tasks[taskState].tasks}
-              state={taskState.toLowerCase()}
-              isDragging={isDragging}
-              handleDragging={handleDragging}
-              loadTasks={loadTasks}
-            />
-          </div>
-        ))}
-      </div>
-    </>
+    <div className='grid grid-cols-3 gap-5'>
+      {Object.keys(tasks).map((taskState) => (
+        <div key={taskState} className='p-3'>
+          <h1 className='text-center font-bold mb-3'>
+            {tasks[taskState].label.toUpperCase()}
+          </h1>
+          <TasksContainer
+            tasks={tasks[taskState].tasks}
+            state={taskState.toLowerCase()}
+            isDragging={isDragging}
+            handleDragging={handleDragging}
+            loadTasks={loadTasks}
+          />
+        </div>
+      ))}
+    </div>
   );
 }
