@@ -16,5 +16,9 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    'react/jsx-key': 'error',
+    'react/no-array-index-key': 'warn',
+    'react/prop-types': 'off',
+    'react/no-typos': 'error',
   },
-}
+};
