@@ -20,7 +20,7 @@ export function TasksPage() {
   }, []);
 
   return (
-    <div className='grid grid-cols-3 gap-5'>
+    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
       {Object.entries(tasks).map(([taskState, tasksData]) => (
         <div key={taskState} className='p-3'>
           <h1 className='text-center font-bold mb-3'>
